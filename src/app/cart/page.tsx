@@ -8,16 +8,20 @@ import {
   updateQtyToCart,
 } from '@/lib/redux/cart/cartSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+import { supabase } from '@/lib/supabase/product';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const CartPage = () => {
-  const [timeLeft, setTimeLeft] = useState(300);
+  const [timeLeft, setTimeLeft] = useState(600);
   const timeCount = (sec: number) => {
     const minutes = Math.floor(sec / 60);
     const seconds = Math.floor(sec % 60);
 
     return `${minutes}m : ${seconds < 10 ? '0' : ''}${seconds}s`;
   };
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -30,7 +34,7 @@ const CartPage = () => {
       });
     }, 1000);
   }, []);
-  const dispatch = useAppDispatch();
+
   const cartData = useAppSelector(getCart);
   const handleIncrese = (cart: CartItem) => {
     const newData = { ...cart, quantity: cart.quantity + 1 };
@@ -55,6 +59,31 @@ const CartPage = () => {
         0
       )
     : 0;
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const { data, error } = await supabase.auth.getUser();
+        if (error) {
+          console.error('Error fetching user data:', error.message);
+          return;
+        }
+        setUser(data);
+      } catch (error) {
+        console.error('Unexpected error:', error);
+      }
+    };
+    getUserData();
+  }, []);
+  const router = useRouter();
+  const handlePay = () => {
+    if (user) {
+      console.log('User found, proceeding with payment...');
+    } else {
+      console.log('User not found, redirecting to signin...');
+      router.push('/signin');
+    }
+  };
   return (
     <div>
       <div className='bg-[#FCF4F0] flex justify-center items-center py-20'>
@@ -94,7 +123,11 @@ const CartPage = () => {
                     >
                       <div className='flex gap-3 col-span-6'>
                         <div className='h-32 w-32'>
-                          <img src={cart.img} alt='' />
+                          <img
+                            src={cart.img}
+                            alt=''
+                            className='h-full w-full'
+                          />
                         </div>
                         <div>
                           <h3>{cart.title}</h3>
@@ -158,9 +191,14 @@ const CartPage = () => {
                 <p>${totalMoney} USD</p>
               </div>
               <div className='mt-5'>
-                <Button className='bg-black text-white font-albert font-medium w-full'>
-                  Check out
-                </Button>
+                <Link href={'/checkout'}>
+                  <Button
+                    onClick={handlePay}
+                    className='bg-black text-white font-albert font-medium w-full'
+                  >
+                    Check out
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

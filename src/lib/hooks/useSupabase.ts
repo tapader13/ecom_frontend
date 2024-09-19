@@ -28,7 +28,7 @@ export const useSupabase = () => {
     const { data, error } = await supabase
       .from('products')
       .select('*')
-      .eq('category', 'newrelease');
+      .ilike('category', `%newrelease%`);
 
     if (error) {
       console.log(error.message);

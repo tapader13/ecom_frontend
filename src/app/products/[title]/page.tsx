@@ -8,7 +8,7 @@ import { addToCart, getCart } from '@/lib/redux/cart/cartSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import ReactImageMagnify from 'react-image-magnify';
+// import ReactImageMagnify from 'react-image-magnify';
 const ProductDetails = ({ params }: { params: { title: string } }) => {
   const searchParams = useSearchParams();
   const query = searchParams.get('variant');
@@ -96,10 +96,15 @@ const ProductDetails = ({ params }: { params: { title: string } }) => {
                 </div>
               ))}
           </div>
-          <div className='col-span-10'>
+          <div className='col-span-10 h-[600px]'>
             {proDlts && (
-              <div className=''>
-                <ReactImageMagnify
+              <div className='w-full h-full'>
+                <img
+                  src={imageSrc || proDlts.img}
+                  alt=''
+                  className='h-full w-full'
+                />
+                {/* <ReactImageMagnify
                   {...{
                     smallImage: {
                       alt: 'Product Image',
@@ -124,7 +129,7 @@ const ProductDetails = ({ params }: { params: { title: string } }) => {
                     },
                     isEnlargedImagePortalEnabledForTouch: true,
                   }}
-                />
+                /> */}
               </div>
             )}
           </div>
@@ -196,6 +201,12 @@ const ProductDetails = ({ params }: { params: { title: string } }) => {
             >
               Add To Cart
             </Button>
+          </div>
+          <div className=''>
+            <p className='mt-5 font-albert font-normal'>
+              <span className='text-xl font-medium'>Description:</span>{' '}
+              {proDlts?.description}
+            </p>
           </div>
         </div>
       </div>

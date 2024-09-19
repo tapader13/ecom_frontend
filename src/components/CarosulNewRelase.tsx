@@ -96,7 +96,7 @@ export function CarosulNewRelase() {
                           {item.title}
                         </p>
                         <p className='mt-3 mb-3 font-albert text-black font-bold'>
-                          {item.price}
+                          ${item.price}
                         </p>
                         <div className='flex gap-3'>
                           {item.colors.map((it) => (

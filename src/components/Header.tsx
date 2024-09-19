@@ -5,8 +5,26 @@ import { CiShoppingCart } from 'react-icons/ci';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { getCart } from '@/lib/redux/cart/cartSlice';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase/product';
 const Header = () => {
   const data = useAppSelector(getCart);
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const { data, error } = await supabase.auth.getUser();
+        if (error) {
+          console.error('Error fetching user data:', error.message);
+          return;
+        }
+        setUser(data);
+      } catch (error) {
+        console.error('Unexpected error:', error);
+      }
+    };
+    getUserData();
+  }, []);
   return (
     <div className='w-screen bg-secondary'>
       <div className='cont flex justify-between items-center py-5'>
@@ -23,7 +41,15 @@ const Header = () => {
             <FaSearch className='h-5 w-5 cursor-pointer hover:text-priamry  transition-all duration-300' />
           </div>
           <div>
-            <FiUser className='h-5 w-5 cursor-pointer hover:text-priamry  transition-all duration-300' />
+            {user ? (
+              <img
+                className='h-7 w-7 rounded-full'
+                src={`${user?.user?.user_metadata?.avatar_url}`}
+                alt='profile-img'
+              />
+            ) : (
+              <FiUser className='h-5 w-5 cursor-pointer hover:text-priamry  transition-all duration-300' />
+            )}
           </div>
           <div className=' relative'>
             <FaRegHeart className='h-5 w-5 cursor-pointer hover:text-priamry  transition-all duration-300' />

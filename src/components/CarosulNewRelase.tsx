@@ -31,7 +31,6 @@ export function CarosulNewRelase() {
     getNewReleaseProduct();
   }, []);
 
-  console.log(products[0]?.colors[0]?.color, 'pr');
   return (
     <Carousel
       opts={{

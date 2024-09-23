@@ -8,7 +8,6 @@ import { addToCart, getCart } from '@/lib/redux/cart/cartSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-// import ReactImageMagnify from 'react-image-magnify';
 const ProductDetails = ({ params }: { params: { title: string } }) => {
   const searchParams = useSearchParams();
   const query = searchParams.get('variant');
@@ -104,32 +103,6 @@ const ProductDetails = ({ params }: { params: { title: string } }) => {
                   alt=''
                   className='h-full w-full'
                 />
-                {/* <ReactImageMagnify
-                  {...{
-                    smallImage: {
-                      alt: 'Product Image',
-                      isFluidWidth: true, // Make width responsive
-                      src: imageSrc || proDlts.img,
-                      height: 500,
-                    },
-                    largeImage: {
-                      src: imageSrc || proDlts.img,
-                      width: 1200,
-                      height: 1800,
-                    },
-                    isHintEnabled: true,
-                    shouldHideHintAfterFirstActivation: false,
-                    enlargedImagePosition: 'beside', // Show enlarged image beside
-                    enlargedImageContainerDimensions: {
-                      width: '90%',
-                      height: '80%',
-                    },
-                    enlargedImageContainerStyle: {
-                      zIndex: 1000,
-                    },
-                    isEnlargedImagePortalEnabledForTouch: true,
-                  }}
-                /> */}
               </div>
             )}
           </div>

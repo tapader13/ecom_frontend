@@ -9,6 +9,7 @@ import {
 import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { FaAngleRight } from 'react-icons/fa';
+import Link from 'next/link';
 export function CarousalHero() {
   return (
     <Carousel className='w-screen'>
@@ -25,12 +26,16 @@ export function CarousalHero() {
                     <p className='my-3 text-tertiary text-xl'>
                       You have to feel it to belive it.
                     </p>
-                    <Button className='flex items-center gap-1 mt-12'>
-                      <p className='text-albert font-normal'>Shop collection</p>
-                      <div className='h-5 w-5 mt-1'>
-                        <FaAngleRight />
-                      </div>
-                    </Button>
+                    <Link href={`/collections/frontpage`}>
+                      <Button className='flex items-center gap-1 mt-12'>
+                        <p className='text-albert font-normal'>
+                          Shop collection
+                        </p>
+                        <div className='h-5 w-5 mt-1'>
+                          <FaAngleRight />
+                        </div>
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </CardContent>

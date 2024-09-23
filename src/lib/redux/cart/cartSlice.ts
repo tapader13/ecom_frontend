@@ -56,8 +56,31 @@ export const cartSlice = createSlice({
     clearCart: (state) => {
       state.cart = [];
     },
+    updateQtyToCartBundle: (state, action: PayloadAction<CartItem>) => {
+      const findItemIndex = state.cart.findIndex(
+        (crt) =>
+          crt.id === action.payload.id &&
+          crt.size === action.payload.size &&
+          crt.color?.color === action.payload.color?.color
+      );
+      if (findItemIndex !== -1) {
+        state.cart[findItemIndex] = {
+          ...state.cart[findItemIndex],
+          quantity: state.cart[findItemIndex].quantity + 1,
+        };
+      }
+      if (findItemIndex === -1) {
+        state.cart.push(action.payload);
+      }
+    },
   },
 });
-export const { addToCart, updateQtyToCart, deleteCart,clearCart } = cartSlice.actions;
+export const {
+  addToCart,
+  updateQtyToCart,
+  deleteCart,
+  clearCart,
+  updateQtyToCartBundle,
+} = cartSlice.actions;
 export const getCart = (state: RootState) => state.cart.cart;
 export default cartSlice.reducer;

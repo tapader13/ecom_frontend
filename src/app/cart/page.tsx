@@ -176,7 +176,7 @@ const CartPage = () => {
                 </Button>
               </div>
             </div>
-            <div className='col-span-3 bg-[#F2F2F2] p-10'>
+            <div className='col-span-3 bg-[#F2F2F2] h-fit p-10'>
               <div className='flex flex-col gap-5'>
                 <p>Add Order Note</p>
                 <textarea
@@ -188,7 +188,7 @@ const CartPage = () => {
               </div>
               <div className='flex justify-between items-center font-young text-xl font-bold mt-5'>
                 <p>Subtotal</p>
-                <p>${totalMoney} USD</p>
+                <p>${totalMoney.toFixed(2)} USD</p>
               </div>
               <div className='mt-5'>
                 <Link href={'/checkout'}>

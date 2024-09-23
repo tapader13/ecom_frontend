@@ -24,6 +24,10 @@ export const useSupabase = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [product, setProduct] = useState<Product>();
   const [proDlts, setProDlts] = useState<Product>();
+  const [menProduct, setMenProduct] = useState<Product[]>([]);
+  const [product1, setProduct1] = useState<Product>();
+  const [product2, setProduct2] = useState<Product>();
+  const [product3, setProduct3] = useState<Product>();
   const getNewReleaseProduct = async () => {
     const { data, error } = await supabase
       .from('products')
@@ -125,10 +129,146 @@ export const useSupabase = () => {
       return;
     }
   };
+  const getMenProduct = async (cat: string) => {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .ilike('category', `%${cat}%`);
+
+    if (error) {
+      console.log(error.message);
+      return;
+    }
+
+    if (data) {
+      const parsedData = data.map((product) => {
+        let colors: Color[] = [];
+        try {
+          colors =
+            typeof product.colors === 'string'
+              ? JSON.parse(product.colors)
+              : product.colors;
+        } catch (e) {
+          console.error('Error parsing colors:', e);
+        }
+
+        return {
+          ...product,
+          colors,
+        };
+      });
+
+      setMenProduct(parsedData);
+    }
+  };
+  const getBoundleProduct1 = async (id: string) => {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', id);
+
+    if (data) {
+      const parsedData = data.map((product) => {
+        let colors: Color[] = [];
+        try {
+          colors =
+            typeof product.colors === 'string'
+              ? JSON.parse(product.colors)
+              : product.colors;
+        } catch (e) {
+          console.error('Error parsing colors:', e);
+        }
+
+        return {
+          ...product,
+          colors,
+        };
+      });
+
+      setProduct1(parsedData[0]);
+    }
+
+    if (error) {
+      console.log(error.message);
+      return;
+    }
+  };
+  const getBoundleProduct2 = async (id: string) => {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', id);
+
+    if (data) {
+      const parsedData = data.map((product) => {
+        let colors: Color[] = [];
+        try {
+          colors =
+            typeof product.colors === 'string'
+              ? JSON.parse(product.colors)
+              : product.colors;
+        } catch (e) {
+          console.error('Error parsing colors:', e);
+        }
+
+        return {
+          ...product,
+          colors,
+        };
+      });
+
+      setProduct2(parsedData[0]);
+    }
+
+    if (error) {
+      console.log(error.message);
+      return;
+    }
+  };
+  const getBoundleProduct3 = async (id: string) => {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', id);
+
+    if (data) {
+      const parsedData = data.map((product) => {
+        let colors: Color[] = [];
+        try {
+          colors =
+            typeof product.colors === 'string'
+              ? JSON.parse(product.colors)
+              : product.colors;
+        } catch (e) {
+          console.error('Error parsing colors:', e);
+        }
+
+        return {
+          ...product,
+          colors,
+        };
+      });
+
+      setProduct3(parsedData[0]);
+    }
+
+    if (error) {
+      console.log(error.message);
+      return;
+    }
+  };
   return {
     products,
     product,
     proDlts,
+    menProduct,
+    product1,
+    product2,
+    product3,
+    getBoundleProduct1,
+    getBoundleProduct2,
+    getBoundleProduct3,
+    getMenProduct,
     getProductDlts,
     getNewReleaseProduct,
     getSingleProduct,

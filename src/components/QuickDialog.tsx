@@ -18,7 +18,6 @@ export function QuickDialog({ id }: { id: string }) {
   useEffect(() => {
     getSingleProduct(id);
   }, [id]);
-  console.log(product, 1);
   const [size, setSize] = useState(0);
   const [selectedColors, setSelectedColors] = useState(0);
 

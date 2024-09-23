@@ -1,6 +1,11 @@
+import Boundle from '@/components/Boundle';
+import BraSpotlite from '@/components/BraSpotlite';
+import Footer from '@/components/Footer';
 import Hero from '@/components/Hero';
 import NewRelease from '@/components/NewRelease';
 import SecondHero from '@/components/SecondHero';
+import SpecialPart from '@/components/SpecialPart';
+import Tranding from '@/components/Tranding';
 
 export default function Home() {
   return (
@@ -8,6 +13,11 @@ export default function Home() {
       <Hero />
       <SecondHero />
       <NewRelease />
+      <BraSpotlite />
+      <Tranding />
+      <Boundle />
+      <SpecialPart />
+      <Footer />
     </div>
   );
 }

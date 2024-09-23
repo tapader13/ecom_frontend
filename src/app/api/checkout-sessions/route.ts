@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     },
     line_items: itemArrenge,
     mode: 'payment',
-    success_url: `${process.env.NEXT_PUBLIC_URL}/success`,
+    success_url: `${process.env.NEXT_PUBLIC_URl}/success`,
     cancel_url: `${process.env.NEXT_PUBLIC_URl}/checkout`,
     metadata: {
       email,

@@ -59,7 +59,8 @@ const CartPage = () => {
         0
       )
     : 0;
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<unknown>(null);
+  console.log(user);
   useEffect(() => {
     const getUserData = async () => {
       try {

@@ -24,6 +24,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import Link from 'next/link';
+import { Slider } from '@/components/ui/slider';
 
 const CategoryPage = () => {
   return (
@@ -92,8 +93,12 @@ const CategoryPage = () => {
                     <AccordionItem value='item-2'>
                       <AccordionTrigger>Price</AccordionTrigger>
                       <AccordionContent>
-                        Yes. It comes with default styles that matches the other
-                        components&apos; aesthetic.
+                        <Slider defaultValue={[50]} max={100} step={1} />
+                        <div className='my-5'>
+                          <span className='text-tertiary text-xl'>
+                            Price: ${1} to ${20}
+                          </span>
+                        </div>
                       </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value='item-3'>

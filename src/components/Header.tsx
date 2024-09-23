@@ -7,6 +7,7 @@ import { getCart } from '@/lib/redux/cart/cartSlice';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/product';
+
 const Header = () => {
   const data = useAppSelector(getCart);
   const [user, setUser] = useState<any>(null);

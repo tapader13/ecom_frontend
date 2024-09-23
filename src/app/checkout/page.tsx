@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
+
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISABLE_KEY!
 );

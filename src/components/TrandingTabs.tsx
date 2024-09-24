@@ -19,7 +19,6 @@ export function TrandingTabs() {
   useEffect(() => {
     getMenProduct(currentTab);
   }, [currentTab]);
-  console.log(menProduct, 1);
   const handleMouseEnter = (id: number, image: string, color: string) => {
     setHoveredImages((prev) => ({ ...prev, [id]: image }));
     setSelectedColors((prev) => ({ ...prev, [id]: color }));

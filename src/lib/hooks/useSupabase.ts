@@ -19,12 +19,20 @@ interface Product {
   colors: Color[];
   size: string[];
 }
-
+interface DynamicData {
+  price: number;
+  category: string;
+  colors: string[];
+  size: string[];
+  sort: { _sort: string; _order: string };
+}
 export const useSupabase = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [product, setProduct] = useState<Product>();
   const [proDlts, setProDlts] = useState<Product>();
   const [menProduct, setMenProduct] = useState<Product[]>([]);
+  const [srcProduct, setSrcProduct] = useState<Product[]>([]);
+  const [dynamicProduct, setDynamicProduct] = useState<Product[]>([]);
   const [product1, setProduct1] = useState<Product>();
   const [product2, setProduct2] = useState<Product>();
   const [product3, setProduct3] = useState<Product>();
@@ -257,6 +265,100 @@ export const useSupabase = () => {
       return;
     }
   };
+  const getDynamicProduct = async ({
+    price,
+    category,
+    colors,
+    size,
+    sort,
+  }: DynamicData) => {
+    console.log(price, category, colors, size, 1);
+    let query = supabase.from('products').select('*').lte('price', `${price}`);
+    if (category) {
+      query = query.ilike('category', `%${category}%`);
+    }
+    if (size && size.length > 0) {
+      query = query.contains('size', size);
+    }
+    const { data, error } = await query;
+    if (error) {
+      console.log(error.message);
+      return;
+    }
+
+    if (data) {
+      const parsedData = data.map((product) => {
+        let colors: Color[] = [];
+        try {
+          colors =
+            typeof product.colors === 'string'
+              ? JSON.parse(product.colors)
+              : product.colors;
+        } catch (e) {
+          console.error('Error parsing colors:', e);
+        }
+
+        return {
+          ...product,
+          colors,
+        };
+      });
+      let filteredData = parsedData;
+      if (colors && colors.length > 0) {
+        filteredData = parsedData.filter((product) => {
+          return colors.every((color) =>
+            product.colors.some(
+              (productColor: any) =>
+                productColor.color.toLowerCase() === color.toLowerCase()
+            )
+          );
+        });
+      }
+      const { _sort, _order } = sort;
+      if (_sort && _order) {
+        filteredData = filteredData.sort((a: any, b: any) => {
+          if (_order === 'asc') {
+            return a[_sort] > b[_sort] ? 1 : -1;
+          } else if (_order === 'desc') {
+            return a[_sort] < b[_sort] ? 1 : -1;
+          }
+          return 0;
+        });
+      }
+      setDynamicProduct(filteredData);
+    }
+  };
+  const getSrcProduct = async (src: string) => {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .or(`category.ilike.%${src}%,title.ilike.%${src}%`);
+    if (error) {
+      console.log(error.message);
+      return;
+    }
+
+    if (data) {
+      const parsedData = data.map((product) => {
+        let colors: Color[] = [];
+        try {
+          colors =
+            typeof product.colors === 'string'
+              ? JSON.parse(product.colors)
+              : product.colors;
+        } catch (e) {
+          console.error('Error parsing colors:', e);
+        }
+
+        return {
+          ...product,
+          colors,
+        };
+      });
+
+      setSrcProduct(parsedData);
+    }
+  };
   return {
     products,
     product,
@@ -265,6 +367,10 @@ export const useSupabase = () => {
     product1,
     product2,
     product3,
+    dynamicProduct,
+    srcProduct,
+    getSrcProduct,
+    getDynamicProduct,
     getBoundleProduct1,
     getBoundleProduct2,
     getBoundleProduct3,

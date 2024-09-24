@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import { Button } from './ui/button';
 import { FaAngleRight } from 'react-icons/fa';
+import Link from 'next/link';
 
 const SecondHero = () => {
   return (
@@ -14,12 +15,17 @@ const SecondHero = () => {
             alt='sec-1'
             className='hover:scale-110 transition-all duration-700 ease-in-out'
           />
+          <Link href={'/collections/tshirts'}>
           <Button className='flex group hover:bg-black hover:text-white left-1/2 bottom-10 -translate-x-1/2 items-center gap-1 mt-12 absolute transition-all duration-300 ease-in-out transform hover:scale-x-105 delay-100'>
-            <p className='text-albert font-extrabold'>T-shirt & Tops</p>
+            
+              <p className='text-albert font-extrabold'>T-shirt & Tops</p>
+           
+
             <div className='hidden delay-100 group-hover:flex transition-all duration-300 ease-in-out transform'>
               <FaAngleRight />
             </div>
           </Button>
+           </Link>
         </div>
         <div className=' relative overflow-hidden'>
           <Image
@@ -28,12 +34,17 @@ const SecondHero = () => {
             alt='sec-2'
             className='hover:scale-110 transition-all duration-700 ease-in-out'
           />
+          <Link href={'/collections/leggings'}>
           <Button className='flex group hover:bg-black hover:text-white left-1/2 bottom-10 -translate-x-1/2 items-center gap-1 mt-12 absolute transition-all duration-300 ease-in-out transform hover:scale-x-105 delay-100'>
-            <p className='text-albert font-extrabold'>Leggings</p>
+            
+              <p className='text-albert font-extrabold'>Leggings</p>
+           
+
             <div className='hidden delay-100 group-hover:flex transition-all duration-300 ease-in-out transform'>
               <FaAngleRight />
             </div>
           </Button>
+           </Link>
         </div>
         <div className=' relative overflow-hidden'>
           <Image
@@ -42,12 +53,15 @@ const SecondHero = () => {
             alt='sec-3'
             className='hover:scale-110 transition-all duration-700 ease-in-out'
           />
-          <Button className='flex group hover:bg-black hover:text-white left-1/2 bottom-10 -translate-x-1/2 items-center gap-1 mt-12 absolute transition-all duration-300 ease-in-out transform hover:scale-x-105 delay-100'>
-            <p className='text-albert font-extrabold'>Sport Bras</p>
-            <div className='hidden delay-100 group-hover:flex transition-all duration-300 ease-in-out transform'>
-              <FaAngleRight />
-            </div>
-          </Button>
+          <Link href={'/collections/sportbras'}>
+            <Button className='flex group hover:bg-black hover:text-white left-1/2 bottom-10 -translate-x-1/2 items-center gap-1 mt-12 absolute transition-all duration-300 ease-in-out transform hover:scale-x-105 delay-100'>
+              <p className='text-albert font-extrabold'>Sport Bras</p>
+
+              <div className='hidden delay-100 group-hover:flex transition-all duration-300 ease-in-out transform'>
+                <FaAngleRight />
+              </div>
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

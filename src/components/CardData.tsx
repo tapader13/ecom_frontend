@@ -20,7 +20,7 @@ const CardData = ({ dynamicProduct, search }: CardData) => {
     setSelectedColors((prev) => ({ ...prev, [id]: color }));
   };
   return (
-    <div className='w-full grid grid-cols-4'>
+    <div className='w-full grid sm:grid-cols-4 grid-cols-1'>
       {' '}
       {dynamicProduct &&
         dynamicProduct.map((item: any) => {

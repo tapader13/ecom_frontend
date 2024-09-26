@@ -11,7 +11,16 @@
   }
 }
 
-.cont {
-  width: 95%;
-  margin-inline: auto;
+:root {
+  --font-young: 'Young Serif', serif;
+  /* Fallback to serif */
+  --font-albert: 'Albert Sans', sans-serif;
+  /* Fallback to sans-serif */
+}
+
+@media (min-width: 640px) {
+  .cont {
+    width: 95%;
+    margin-inline: auto;
+  }
 }

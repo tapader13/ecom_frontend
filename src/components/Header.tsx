@@ -42,7 +42,7 @@ const Header = () => {
 
   return (
     <div className='w-screen bg-secondary'>
-      <div className='cont flex justify-between items-center py-5'>
+      <div className='cont flex justify-between items-center py-5 px-2 '>
         <div>
           <Link href={'/'}>
             <h1 className='text-3xl font-bold font-young cursor-pointer'>

@@ -68,8 +68,8 @@ const CheckoutPage = () => {
   };
   return (
     <div>
-      <div className='grid grid-cols-12 gap-5 cont'>
-        <div className='col-span-7 pt-10'>
+      <div className='grid px-5 sm:px-0 sm:grid-cols-12 grid-cols-1 gap-5 cont'>
+        <div className='sm:col-span-7 pt-10'>
           <h1 className='font-young text-3xl font-bold'>User Details</h1>
           <div className='flex gap-2 mt-2 items-center'>
             <h3 className='font-albert text-xl font-medium'>Email:</h3>
@@ -86,7 +86,7 @@ const CheckoutPage = () => {
             </Button>
           </div> */}
         </div>
-        <div className='col-span-5 pt-10'>
+        <div className='sm:col-span-5 pt-10'>
           {cartData &&
             cartData.map((cart, i) => (
               <>

@@ -88,27 +88,32 @@ const CartPage = () => {
   return (
     <div>
       <div className='bg-[#FCF4F0] flex justify-center items-center py-20'>
-        <h1 className='font-young font-extrabold text-5xl'>Shopping Cart</h1>
+        <h1 className='font-young font-extrabold sm:text-5xl text-3xl'>
+          Shopping Cart
+        </h1>
       </div>
       {timeLeft > 0 && cartData && cartData.length > 0 ? (
         <>
           {' '}
-          <div className='flex items-center justify-center py-14 gap-3 font-albert text-xl'>
-            <span>
-              <img
-                src='/images-removebg-preview.png'
-                alt=''
-                className='h-6 w-6'
-              />
-            </span>
-            <p> These products are limited, checkout within </p>
+          <div className='flex px-5 sm:px-0 sm:flex-row flex-col items-center justify-center py-14 gap-3 font-albert text-xl'>
+            <div className='flex items-start gap-2'>
+              {' '}
+              <span>
+                <img
+                  src='/images-removebg-preview.png'
+                  alt=''
+                  className='h-6 w-6'
+                />
+              </span>
+              <p> These products are limited, checkout within </p>
+            </div>
             <Button className='bg-priamry text-white font-albert text-xl'>
               {timeCount(timeLeft)}
             </Button>
           </div>
-          <div className='grid grid-cols-12 cont'>
-            <div className='col-span-9'>
-              <div className=' grid grid-cols-12 font-albert mb-5 font-medium'>
+          <div className='grid px-5 sm:px-0 sm:grid-cols-12 grid-cols-1 cont'>
+            <div className='sm:col-span-9'>
+              <div className='hidden sm:grid grid-cols-12  font-albert mb-5 font-medium'>
                 <h3 className='col-span-6'>Product</h3>
                 <h3 className='col-span-2'>Price</h3>
                 <h3 className='col-span-2'>Quantity</h3>
@@ -120,7 +125,7 @@ const CartPage = () => {
                   <>
                     <div
                       key={i}
-                      className=' grid grid-cols-12 items-center font-albert font-medium '
+                      className=' sm:grid hidden mb-5 grid-cols-12 items-center font-albert font-medium '
                     >
                       <div className='flex gap-3 col-span-6'>
                         <div className='h-32 w-32'>
@@ -165,9 +170,66 @@ const CartPage = () => {
                         ${cart.price && cart.price * cart.quantity}
                       </div>
                     </div>
-                    <div className='w-full border border-gray-200 my-10' />
+                    {/* <div className='w-full border border-gray-200 my-10' /> */}
                   </>
                 ))}
+              {cartData &&
+                cartData.map((cart, i) => (
+                  <>
+                    <div
+                      key={i}
+                      className='mb-5  sm:hidden flex gap-2 items-start font-albert font-medium '
+                    >
+                      <div className='h-32 w-32'>
+                        <img src={cart.img} alt='' className='h-full w-full' />
+                      </div>
+                      <div>
+                        <div>
+                          <h3 className='font-bold'>{cart.title}</h3>
+                          <p className='text-gray-400'>
+                            {cart.size}/{cart.color?.color}
+                          </p>
+                          <button
+                            onClick={() => handleDelete(cart)}
+                            className='hover:text-priamry'
+                          >
+                            remove
+                          </button>
+                        </div>
+                        <div className='w-full border border-gray-200 my-2' />
+                        <div className='flex items-center justify-between'>
+                          <h3 className='font-semibold'>Price:</h3>
+                          <h3>${cart.price}</h3>
+                        </div>
+                        <div className='w-full border border-gray-200 my-2' />
+                        <div className='flex items-center justify-between'>
+                          <h3 className='font-semibold'>Quantity:</h3>
+                          <div className='flex w-24 justify-between bg-[#F2F2F2] rounded-full px-2 py-1'>
+                            <p
+                              onClick={() => handleDecrese(cart)}
+                              className='hover:text-priamry cursor-pointer'
+                            >
+                              -
+                            </p>
+                            <p>{cart.quantity}</p>
+                            <p
+                              onClick={() => handleIncrese(cart)}
+                              className='hover:text-priamry cursor-pointer'
+                            >
+                              +
+                            </p>
+                          </div>
+                        </div>
+                        <div className='w-full border border-gray-200 my-2' />
+                        <div className='flex items-center justify-between'>
+                          <h3 className='font-semibold'>Total:</h3>$
+                          {cart.price && cart.price * cart.quantity}
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ))}
+              <div className='w-full border border-gray-200 my-2 sm:my-10' />
               <div className='text-center'>
                 <Button
                   onClick={handleClearCart}
@@ -177,7 +239,7 @@ const CartPage = () => {
                 </Button>
               </div>
             </div>
-            <div className='col-span-3 bg-[#F2F2F2] h-fit p-10'>
+            <div className='sm:col-span-3 mt-5 sm:mt-0 bg-[#F2F2F2] h-fit p-10'>
               <div className='flex flex-col gap-5'>
                 <p>Add Order Note</p>
                 <textarea

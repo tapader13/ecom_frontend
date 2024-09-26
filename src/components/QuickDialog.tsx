@@ -9,7 +9,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
 import { useSupabase } from '@/lib/hooks/useSupabase';
+import { addToCart, getCart } from '@/lib/redux/cart/cartSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { useEffect, useState } from 'react';
 import { CiShoppingCart } from 'react-icons/ci';
 
@@ -20,10 +23,12 @@ export function QuickDialog({ id }: { id: string }) {
   }, [id]);
   const [size, setSize] = useState(0);
   const [selectedColors, setSelectedColors] = useState(0);
-
+  const dispatch = useAppDispatch();
   const handleClickColor = (color: number) => {
     setSelectedColors(color);
   };
+  const { toast } = useToast();
+  const data = useAppSelector(getCart);
   const handleAddToCart = () => {
     const addData = {
       price: product?.price,
@@ -35,7 +40,30 @@ export function QuickDialog({ id }: { id: string }) {
       img: product?.img,
       category: product?.category,
     };
-    console.log(addData);
+    if (
+      addData.price &&
+      addData.size &&
+      addData.color &&
+      addData.title &&
+      addData.id &&
+      addData.img &&
+      addData.category
+    ) {
+      const findId = data.find((dt) => dt.id === addData.id);
+      const findSize = data.find((dt) => dt.size === addData.size);
+      const findColor = data.find((dt) => dt.color === addData.color);
+      if (!findId || !findSize || !findColor) {
+        dispatch(addToCart(addData));
+        toast({
+          description: 'Product Add To Cart.',
+        });
+      } else {
+        toast({
+          variant: 'destructive',
+          description: 'Product Already Added.',
+        });
+      }
+    }
   };
   return (
     <Dialog>

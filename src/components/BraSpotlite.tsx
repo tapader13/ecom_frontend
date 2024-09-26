@@ -23,34 +23,44 @@ const BraSpotlite = () => {
   const seconds = Math.floor(timeLeft % 60);
   return (
     <div>
-      <div className='cont  mt-20 mb-10 relative w-full h-[600px] rounded-2xl overflow-hidden '>
+      <div className='cont  mt-20 mb-10 relative w-full h-[300px] sm:h-[600px] rounded-2xl overflow-hidden '>
         <Image src={'/asset 68.jpeg'} alt='bra_spot_img' fill />
         <div className=' absolute p-10 -translate-y-1/2 transform left-0 top-1/2 w-full'>
-          <h1 className='text-5xl font-bold font-young'>Bra SpotLight</h1>
+          <h1 className='sm:text-5xl text-3xl font-bold font-young'>
+            Bra SpotLight
+          </h1>
           <p className='my-5 font-normal font-albert'>
             Let&rsquo;s go from the top
           </p>
           <div className='flex items-center gap-5'>
-            <div className='h-24 w-24 flex-col rounded-full bg-white text-accent flex items-center justify-center'>
-              <h3 className='text-3xl font-albert font-bold'>{days}</h3>
+            <div className='sm:h-24 w-24 h-16 flex-col rounded-full bg-white text-accent flex items-center justify-center'>
+              <h3 className='sm:text-3xl text-2xl font-albert font-bold'>
+                {days}
+              </h3>
               <h3 className='text-xs  font-normal font-albert text-tertiary uppercase'>
                 days
               </h3>
             </div>
-            <div className='h-24 w-24 flex-col rounded-full bg-white text-accent flex items-center justify-center'>
-              <h3 className='text-3xl font-albert font-bold'>{hours}</h3>
+            <div className='sm:h-24 w-24 h-16 flex-col rounded-full bg-white text-accent flex items-center justify-center'>
+              <h3 className='sm:text-3xl text-2xl font-albert font-bold'>
+                {hours}
+              </h3>
               <h3 className=' text-xs font-normal font-albert text-tertiary uppercase'>
                 hours
               </h3>
             </div>
-            <div className='h-24 w-24 flex-col rounded-full bg-white text-accent flex items-center justify-center'>
-              <h3 className='text-3xl font-albert font-bold'>{minutes}</h3>
+            <div className='sm:h-24 w-24 h-16 flex-col rounded-full bg-white text-accent flex items-center justify-center'>
+              <h3 className='sm:text-3xl text-2xl font-albert font-bold'>
+                {minutes}
+              </h3>
               <h3 className='text-xs  font-normal font-albert text-tertiary uppercase'>
                 mins
               </h3>
             </div>
-            <div className='h-24 w-24 flex-col rounded-full bg-white text-accent flex items-center justify-center'>
-              <h3 className='text-3xl font-albert font-bold'>{seconds}</h3>
+            <div className='sm:h-24 w-24 h-16 flex-col rounded-full bg-white text-accent flex items-center justify-center'>
+              <h3 className='sm:text-3xl text-2xl font-albert font-bold'>
+                {seconds}
+              </h3>
               <h3 className='text-xs  font-normal font-albert text-tertiary uppercase'>
                 secs
               </h3>

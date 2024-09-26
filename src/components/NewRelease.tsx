@@ -3,7 +3,7 @@ import { CarosulNewRelase } from './CarosulNewRelase';
 
 const NewRelease = () => {
   return (
-    <div className='mt-20'>
+    <div className='sm:mt-20 mt-5'>
       <div className='cont'>
         <div className='flex justify-between items-center'>
           <h1 className='text-4xl leading-[90px] font-young'>New releases</h1>

@@ -3,8 +3,8 @@ import React from 'react';
 const Footer = () => {
   return (
     <div className=' w-full bg-secondary'>
-      <div className=' cont mx-auto py-14'>
-        <div className=' flex  justify-between gap-10'>
+      <div className='cont px-5 sm:px-0  py-14'>
+        <div className=' flex flex-col sm:flex-row  justify-between gap-10'>
           <div>
             <h3 className='text-2xl font-young'>Links</h3>
             <ul className='font-albert'>

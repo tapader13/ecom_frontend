@@ -73,19 +73,19 @@ const ProductDetails = ({ params }: { params: { title: string } }) => {
   };
   // console.log(proDlts, 'prd');
   return (
-    <div className='cont'>
+    <div className='cont px-5 sm:px-0'>
       <div className='my-5'>
         <BreadCrump title={title} />
       </div>
-      <div className='grid grid-cols-2 gap-10 '>
-        <div className='grid grid-cols-12 gap-3 h-[500px]'>
-          <div className='col-span-2 h-full gap-3 flex flex-col  justify-between'>
+      <div className='grid sm:grid-cols-2 grid-cols-1 gap-10 '>
+        <div className='grid sm:grid-cols-12 grid-cols-1 gap-3 h-[500px]'>
+          <div className='sm:col-span-2 order-1 sm:order-none h-full gap-3 flex sm:flex-col flex-row  justify-between'>
             {proDlts &&
               proDlts?.colors?.map((img, i) => (
                 <div
                   key={i}
                   onClick={() => handleImgChange(img.fakeImg, i)}
-                  className={` cursor-pointer h-36 rounded-lg overflow-hidden w-full ${
+                  className={` cursor-pointer sm:h-36 h-32 rounded-lg overflow-hidden w-full ${
                     imageSrc === img.fakeImg
                       ? ' border-4 border-black'
                       : 'border-4 border-transparent'
@@ -95,7 +95,7 @@ const ProductDetails = ({ params }: { params: { title: string } }) => {
                 </div>
               ))}
           </div>
-          <div className='col-span-10 h-[600px]'>
+          <div className='sm:col-span-10 sm:h-[600px] h-[400px]'>
             {proDlts && (
               <div className='w-full h-full'>
                 <img

@@ -10,9 +10,9 @@ import {
 } from '@/components/ui/carousel';
 import { useSupabase } from '@/lib/hooks/useSupabase';
 import { useEffect, useState } from 'react';
-import { FaRegEye } from 'react-icons/fa';
 import { QuickDialog } from './QuickDialog';
 import Link from 'next/link';
+import { QuickView } from './QuickView';
 
 export function CarosulNewRelase() {
   const [hoveredImages, setHoveredImages] = useState<{ [key: number]: string }>(
@@ -44,15 +44,15 @@ export function CarosulNewRelase() {
           const selectedColor = selectedColors[item.id];
           console.log(hoveredImage, selectedColor, 2);
           return (
-            <CarouselItem key={item.id} className='md:basis-1/2 lg:basis-1/4'>
-              <div className='p-3'>
+            <CarouselItem key={item.id} className='basis-1/2 lg:basis-1/4'>
+              <div className='sm:p-3'>
                 <Card className='shadow-none border-none'>
-                  <CardContent className='p-1'>
+                  <CardContent className='sm:p-1 pr-1'>
                     <div className='w-full group'>
                       <Link
                         href={`products/${item.title}?variant=${hoveredImage}`}
                       >
-                        <div className='relative w-full h-[450px] overflow-hidden'>
+                        <div className='relative w-full sm:h-[450px] overflow-hidden'>
                           <img
                             src={hoveredImage}
                             className='transition-all duration-1000 hover:opacity-0 '
@@ -75,9 +75,15 @@ export function CarosulNewRelase() {
                                 {' '}
                                 <QuickDialog id={item.id.toString()} />
                               </div>
-                              <div className=' relative bg-white p-2 hover:bg-black hover:text-white'>
+                              <div
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                }}
+                                className=' relative bg-white p-2 hover:bg-black hover:text-white'
+                              >
                                 {' '}
-                                <FaRegEye className='h-5 w-5 cursor-pointer  transition-all duration-300' />
+                                <QuickView id={item.id.toString()} />
                               </div>
                             </div>
                             <div className='flex gap-2 bg-black/30 text-xs py-2 text-white justify-center   '>
@@ -92,7 +98,8 @@ export function CarosulNewRelase() {
 
                       <div>
                         <p className='text-tertiary hover:text-priamry transition-all duration-300 font-albert mt-5'>
-                          {item.title}
+                          {item.title.slice(0, 18)}
+                          {item.title.length > 18 && '...'}
                         </p>
                         <p className='mt-3 mb-3 font-albert text-black font-bold'>
                           ${item.price}
@@ -101,7 +108,7 @@ export function CarosulNewRelase() {
                           {item.colors.map((it) => (
                             <div
                               key={it.color}
-                              className={`h-7 w-7 rounded-full cursor-pointer border-[1px] p-1 ${
+                              className={`h-5 w-5 sm:h-7 sm:w-7 rounded-full cursor-pointer border-[1px] p-1 ${
                                 selectedColor === it.color
                                   ? 'border-black p-[5px]'
                                   : 'border-gray-200 hover:p-[5px] hover:border-black'

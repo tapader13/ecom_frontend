@@ -85,7 +85,7 @@ const CardData = ({ dynamicProduct, search }: CardData) => {
                       </p>
                       {!search && (
                         <div className='flex gap-3'>
-                          {item.colors.map((it) => (
+                          {item.colors.map((it: any) => (
                             <div
                               key={it.color}
                               className={`h-7 w-7 rounded-full cursor-pointer border-[1px] p-1 ${

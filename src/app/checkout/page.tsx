@@ -4,33 +4,18 @@ import { getCart } from '@/lib/redux/cart/cartSlice';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { supabase } from '@/lib/supabase/product';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
+import { AuthContext } from '@/provider/AuthProvider';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISABLE_KEY!
 );
 const CheckoutPage = () => {
   const cartData = useAppSelector(getCart);
-  const [user, setUser] = useState<any>(null);
   const router = useRouter();
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const { data, error } = await supabase.auth.getUser();
-        if (error) {
-          console.error('Error fetching user data:', error.message);
-          router.push('/signin');
-          return;
-        }
-        setUser(data);
-      } catch (error) {
-        console.error('Unexpected error:', error);
-      }
-    };
-    getUserData();
-  }, [router]);
+  const { user } = useContext(AuthContext);
 
   const totalMoney = cartData
     ? cartData.reduce(
@@ -66,6 +51,10 @@ const CheckoutPage = () => {
       console.error('Error creating checkout session:', error);
     }
   };
+  if (!user) {
+    router.push('/signin');
+    return null;
+  }
   return (
     <div>
       <div className='grid px-5 sm:px-0 sm:grid-cols-12 grid-cols-1 gap-5 cont'>

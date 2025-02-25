@@ -19,24 +19,6 @@ const AuthProvider = ({ children }) => {
 
   // Listen to Auth State Changes
   useEffect(() => {
-    const getUserData = async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (error) {
-        console.error('Error fetching user:', error.message);
-        return;
-      }
-      if (data?.user) {
-        setUser(data.user);
-        setIsAuthenticated(true);
-      } else {
-        setUser(null);
-        setIsAuthenticated(false);
-      }
-      setLoading(false);
-    };
-
-    getUserData(); // Initial fetch
-
     // Listen for authentication changes
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {

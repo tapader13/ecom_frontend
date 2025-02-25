@@ -67,6 +67,7 @@ const CartPage = () => {
   const handlePay = () => {
     if (user) {
       console.log('User found, proceeding with payment...');
+      router.push('/checkout');
     } else {
       console.log('User not found, redirecting to signin...');
       router.push('/signin');
@@ -241,14 +242,12 @@ const CartPage = () => {
                 <p>${totalMoney.toFixed(2)} USD</p>
               </div>
               <div className='mt-5'>
-                <Link href={'/checkout'}>
-                  <Button
-                    onClick={handlePay}
-                    className='bg-black text-white font-albert font-medium w-full'
-                  >
-                    Check out
-                  </Button>
-                </Link>
+                <Button
+                  onClick={handlePay}
+                  className='bg-black text-white font-albert font-medium w-full'
+                >
+                  Check out
+                </Button>
               </div>
             </div>
           </div>

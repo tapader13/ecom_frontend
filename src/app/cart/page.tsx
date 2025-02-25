@@ -9,9 +9,10 @@ import {
 } from '@/lib/redux/cart/cartSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { supabase } from '@/lib/supabase/product';
+import { AuthContext } from '@/provider/AuthProvider';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 const CartPage = () => {
   const [timeLeft, setTimeLeft] = useState(600);
@@ -59,23 +60,9 @@ const CartPage = () => {
         0
       )
     : 0;
-  const [user, setUser] = useState<unknown>(null);
-  console.log(user);
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const { data, error } = await supabase.auth.getUser();
-        if (error) {
-          console.error('Error fetching user data:', error.message);
-          return;
-        }
-        setUser(data);
-      } catch (error) {
-        console.error('Unexpected error:', error);
-      }
-    };
-    getUserData();
-  }, []);
+  const { user } = useContext(AuthContext);
+  console.log(user, 'cart');
+
   const router = useRouter();
   const handlePay = () => {
     if (user) {

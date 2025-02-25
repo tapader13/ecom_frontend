@@ -1,3 +1,4 @@
+'use client';
 import { createContext, useEffect, useState } from 'react';
 import { supabase } from './../lib/supabase/product';
 
@@ -7,12 +8,6 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  // Logout User
-  const logoutUser = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
-  };
 
   // Google Login
   const googleLogin = async () => {
@@ -26,9 +21,17 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const getUserData = async () => {
       const { data, error } = await supabase.auth.getUser();
-      if (error) console.error('Error fetching user:', error.message);
-      setUser(data?.user || null);
-      setIsAuthenticated(!!data?.user);
+      if (error) {
+        console.error('Error fetching user:', error.message);
+        return;
+      }
+      if (data?.user) {
+        setUser(data.user);
+        setIsAuthenticated(true);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
       setLoading(false);
     };
 
@@ -37,10 +40,11 @@ const AuthProvider = ({ children }) => {
     // Listen for authentication changes
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        if (session?.user) {
+        // Check if session or user actually changes
+        if (session?.user && session.user !== user) {
           setUser(session.user);
           setIsAuthenticated(true);
-        } else {
+        } else if (!session?.user && user !== null) {
           setUser(null);
           setIsAuthenticated(false);
         }
@@ -48,15 +52,16 @@ const AuthProvider = ({ children }) => {
       }
     );
 
-    return () => authListener.subscription.unsubscribe();
-  }, []);
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []); // Dependency on user state
 
   return (
     <AuthContext.Provider
       value={{
         user,
         loading,
-        logoutUser,
         googleLogin,
         isAuthenticated,
       }}

@@ -4,7 +4,7 @@ import { Albert_Sans, Young_Serif } from 'next/font/google';
 import Header from '@/components/Header';
 import ReduxProvider from '@/lib/redux/ReduxProvider';
 import { Toaster } from '@/components/ui/toaster';
-
+import AuthProvider from '@/provider/AuthProvider';
 const getYoung = Young_Serif({
   subsets: ['latin'],
   weight: ['400'],
@@ -31,11 +31,13 @@ export default function RootLayout({
       <body
         className={`${getAlbert.variable} ${getYoung.variable} antialiased`}
       >
-        <ReduxProvider>
-          <Header />
-          {children}
-          <Toaster />
-        </ReduxProvider>
+        <AuthProvider>
+          <ReduxProvider>
+            <Header />
+            {children}
+            <Toaster />
+          </ReduxProvider>
+        </AuthProvider>
       </body>
     </html>
   );

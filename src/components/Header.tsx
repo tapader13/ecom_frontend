@@ -5,7 +5,7 @@ import { CiShoppingCart } from 'react-icons/ci';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { getCart } from '@/lib/redux/cart/cartSlice';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/product';
 import SearchPart from './SearchPart';
 import {
@@ -16,27 +16,13 @@ import {
 } from './ui/dropdown-menu';
 import { LogOut, LogIn } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { AuthContext } from '@/provider/AuthProvider';
 
 const Header = () => {
   const data1 = useAppSelector(getCart);
   console.log(data1, 'tr');
-  const [user, setUser] = useState<any>(null);
 
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const { data, error } = await supabase.auth.getUser();
-        if (error) {
-          console.error('Error fetching user data:', error.message);
-          return;
-        }
-        setUser(data);
-      } catch (error) {
-        console.error('Unexpected error:', error);
-      }
-    };
-    getUserData();
-  }, []);
+  const { user, isAuthenticated } = useContext(AuthContext);
 
   const router = useRouter();
 
@@ -58,10 +44,10 @@ const Header = () => {
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger className='cursor-pointer' asChild>
-                {user ? (
+                {isAuthenticated ? (
                   <img
                     className='h-7 w-7 rounded-full'
-                    src={user?.user?.user_metadata?.avatar_url}
+                    src={user?.user_metadata?.avatar_url}
                     alt='profile-img'
                   />
                 ) : (
@@ -72,7 +58,7 @@ const Header = () => {
               </DropdownMenuTrigger>
 
               <DropdownMenuContent className='w-56'>
-                {user ? (
+                {isAuthenticated ? (
                   <DropdownMenuItem
                     onClick={async () => {
                       const { error } = await supabase.auth.signOut();

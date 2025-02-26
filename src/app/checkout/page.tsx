@@ -30,15 +30,27 @@ const CheckoutPage = () => {
       // Log the data being sent to the API
       console.log('Creating checkout session with data:', {
         items: cartData,
-        email: user?.user?.user_metadata?.email,
+        email: user?.user_metadata?.email,
       });
 
       const checkoutSession = await axios.post('/api/checkout-sessions', {
         items: cartData,
-        email: user?.user?.user_metadata?.email,
+        email: user?.user_metadata?.email,
       });
+      if (checkoutSession?.data?.success) {
+        const { data, error } = await supabase.from('orders').insert([
+          {
+            email: user?.user_metadata?.email,
+            stripe_session_id: checkoutSession.data.id,
+            items: JSON.stringify(cartData),
+          },
+        ]);
+        if (error) {
+          console.log(error, 'error');
+        }
+      }
 
-      console.log('Checkout Session:', checkoutSession.data);
+      console.log('Checkout Session:', checkoutSession);
 
       const result = await stripe?.redirectToCheckout({
         sessionId: checkoutSession.data.id,
@@ -60,6 +72,7 @@ const CheckoutPage = () => {
       <div className='grid px-5 sm:px-0 sm:grid-cols-12 grid-cols-1 gap-5 cont'>
         <div className='sm:col-span-7 pt-10'>
           <h1 className='font-young text-3xl font-bold'>User Details</h1>
+
           <div className='flex gap-2 mt-2 items-center'>
             <h3 className='font-albert text-xl font-medium'>Email:</h3>
             <span>{user?.user?.user_metadata?.email}</span>

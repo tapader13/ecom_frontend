@@ -1,4 +1,5 @@
 import { CartItem } from '@/lib/redux/cart/cartSlice';
+import { supabase } from '@/lib/supabase/product';
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY!, {
@@ -33,8 +34,24 @@ export async function POST(req: NextRequest) {
       images: JSON.stringify(items.map((itm: CartItem) => itm.img)),
     },
   });
+
+  // const { data, error } = await supabase.from('orders').insert([
+  //   {
+  //     email,
+  //     stripe_session_id: session.id,
+  //     items: JSON.stringify(items),
+  //   },
+  // ]);
+  // if (error) {
+  //   console.log(error, 'error');
+  //   return NextResponse.json({
+  //     error,
+  //   });
+  // }
+  // console.log(data, 'data');
   console.log(session.id, 'id');
   return NextResponse.json({
     id: session.id,
+    success: true,
   });
 }

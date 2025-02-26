@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState, useMemo } from 'react';
 import { supabase } from './../lib/supabase/product';
 
 export const AuthContext = createContext(null);
@@ -9,45 +9,54 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Google Login
-  const googleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-    });
-    if (error) throw error;
-  };
-
-  // Listen to Auth State Changes
+  // Fetch user session on mount
   useEffect(() => {
-    // Listen for authentication changes
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        // Check if session or user actually changes
-        if (session?.user && session.user !== user) {
-          setUser(session.user);
-          setIsAuthenticated(true);
-        } else if (!session?.user && user !== null) {
-          setUser(null);
-          setIsAuthenticated(false);
-        }
+    let isMounted = true;
+
+    const getUserSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error('Error fetching session:', error);
+        return;
+      }
+
+      if (isMounted) {
+        setUser(data.session?.user || null);
+        setIsAuthenticated(!!data.session?.user);
         setLoading(false);
       }
-    );
+    };
+
+    getUserSession();
+
+    // const { data: authListener } = supabase.auth.onAuthStateChange(
+    //   (event, session) => {
+    //     if (!isMounted) return;
+    //     if (session?.user) {
+    //       setUser(session.user);
+    //       setIsAuthenticated(true);
+    //     } else {
+    //       setUser(null);
+    //       setIsAuthenticated(false);
+    //     }
+    //     setLoading(false);
+    //   }
+    // );
 
     return () => {
-      authListener.subscription.unsubscribe();
+      isMounted = false;
+      // authListener.subscription.unsubscribe();
     };
-  }, []); // Dependency on user state
+  }, []); // ✅ Empty dependency array
+
+  // ✅ Memoize context value to prevent re-renders
+  const authContextValue = useMemo(
+    () => ({ user, loading, isAuthenticated }),
+    [user, loading, isAuthenticated]
+  );
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        loading,
-        googleLogin,
-        isAuthenticated,
-      }}
-    >
+    <AuthContext.Provider value={authContextValue}>
       {children}
     </AuthContext.Provider>
   );

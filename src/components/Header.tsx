@@ -5,7 +5,7 @@ import { CiShoppingCart } from 'react-icons/ci';
 import { useAppSelector } from '@/lib/redux/hooks';
 import { getCart } from '@/lib/redux/cart/cartSlice';
 import Link from 'next/link';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/lib/supabase/product';
 import SearchPart from './SearchPart';
 import {
@@ -23,7 +23,10 @@ const Header = () => {
   console.log(data1, 'tr');
 
   const { user, isAuthenticated } = useContext(AuthContext);
-
+  const userMemo = useMemo(
+    () => ({ user, isAuthenticated }),
+    [user, isAuthenticated]
+  );
   const router = useRouter();
 
   return (
@@ -44,7 +47,7 @@ const Header = () => {
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger className='cursor-pointer' asChild>
-                {isAuthenticated ? (
+                {userMemo.isAuthenticated ? (
                   <img
                     className='h-7 w-7 rounded-full'
                     src={user?.user_metadata?.avatar_url}
@@ -58,7 +61,7 @@ const Header = () => {
               </DropdownMenuTrigger>
 
               <DropdownMenuContent className='w-56'>
-                {isAuthenticated ? (
+                {userMemo.isAuthenticated ? (
                   <DropdownMenuItem
                     onClick={async () => {
                       const { error } = await supabase.auth.signOut();

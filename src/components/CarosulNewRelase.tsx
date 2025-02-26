@@ -9,7 +9,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { useSupabase } from '@/lib/hooks/useSupabase';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { QuickDialog } from './QuickDialog';
 import Link from 'next/link';
 import { QuickView } from './QuickView';
@@ -30,7 +30,7 @@ export function CarosulNewRelase() {
   useEffect(() => {
     getNewReleaseProduct();
   }, []);
-
+  const memoizedProducts = useMemo(() => products, [products]);
   return (
     <Carousel
       opts={{
@@ -39,7 +39,7 @@ export function CarosulNewRelase() {
       className='w-full'
     >
       <CarouselContent>
-        {products.map((item) => {
+        {memoizedProducts.map((item) => {
           const hoveredImage = hoveredImages[item.id] || item.img;
           const selectedColor = selectedColors[item.id];
           console.log(hoveredImage, selectedColor, 2);

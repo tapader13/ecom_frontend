@@ -22,7 +22,7 @@ const SearchPart = () => {
       getSrcProduct(search);
     }
   };
-  console.log(srcProduct);
+  // console.log(srcProduct);
   return (
     <div>
       <FaSearch

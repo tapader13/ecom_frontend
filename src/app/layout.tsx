@@ -31,13 +31,13 @@ export default function RootLayout({
       <body
         className={`${getAlbert.variable} ${getYoung.variable} antialiased`}
       >
-        <AuthProvider>
-          <ReduxProvider>
+        <ReduxProvider>
+          <AuthProvider>
             <Header />
             {children}
             <Toaster />
-          </ReduxProvider>
-        </AuthProvider>
+          </AuthProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

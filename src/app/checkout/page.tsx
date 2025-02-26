@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { getCart } from '@/lib/redux/cart/cartSlice';
-import { useAppSelector } from '@/lib/redux/hooks';
+import { clearCart, getCart } from '@/lib/redux/cart/cartSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { supabase } from '@/lib/supabase/product';
 import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react';
@@ -16,6 +16,8 @@ const CheckoutPage = () => {
   const cartData = useAppSelector(getCart);
   const router = useRouter();
   const { user } = useContext(AuthContext);
+  const data1 = useAppSelector(getCart);
+  const dispatch = useAppDispatch();
 
   const totalMoney = cartData
     ? cartData.reduce(
@@ -45,6 +47,7 @@ const CheckoutPage = () => {
             items: JSON.stringify(cartData),
           },
         ]);
+        dispatch(clearCart());
         if (error) {
           console.log(error, 'error');
         }

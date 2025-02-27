@@ -8,11 +8,12 @@ import {
   updateQtyToCart,
 } from '@/lib/redux/cart/cartSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+import { getUser } from '@/lib/redux/user/userSlice';
 import { supabase } from '@/lib/supabase/product';
 import { AuthContext } from '@/provider/AuthProvider';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const CartPage = () => {
   const [timeLeft, setTimeLeft] = useState(600);
@@ -60,7 +61,7 @@ const CartPage = () => {
         0
       )
     : 0;
-  const { user } = useContext(AuthContext);
+  const user = useAppSelector(getUser);
   console.log(user, 'cart');
 
   const router = useRouter();

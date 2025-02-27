@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
-import { AuthContext } from '@/provider/AuthProvider';
+import { getUser } from '@/lib/redux/user/userSlice';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISABLE_KEY!
@@ -15,7 +15,7 @@ const stripePromise = loadStripe(
 const CheckoutPage = () => {
   const cartData = useAppSelector(getCart);
   const router = useRouter();
-  const { user } = useContext(AuthContext);
+  const user = useAppSelector(getUser);
   const data1 = useAppSelector(getCart);
   const dispatch = useAppDispatch();
 
@@ -32,17 +32,17 @@ const CheckoutPage = () => {
       // Log the data being sent to the API
       console.log('Creating checkout session with data:', {
         items: cartData,
-        email: user?.user_metadata?.email,
+        email: user?.user?.user_metadata?.email,
       });
 
       const checkoutSession = await axios.post('/api/checkout-sessions', {
         items: cartData,
-        email: user?.user_metadata?.email,
+        email: user?.user?.user_metadata?.email,
       });
       if (checkoutSession?.data?.success) {
         const { data, error } = await supabase.from('orders').insert([
           {
-            email: user?.user_metadata?.email,
+            email: user?.user?.user_metadata?.email,
             stripe_session_id: checkoutSession.data.id,
             items: JSON.stringify(cartData),
           },

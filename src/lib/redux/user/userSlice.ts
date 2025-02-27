@@ -17,15 +17,15 @@ export const userSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<number>) => {
+    setUserInfo: (state, action: PayloadAction<number>) => {
       state.user = action.payload;
     },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUserInfo } = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const getUser = (state: RootState) => state.user.user;
+export const getUser = (state: RootState) => state.user;
 
 export default userSlice.reducer;

@@ -18,10 +18,12 @@ export interface CartItem {
 }
 export interface CartState {
   cart: CartItem[];
+  count: number;
 }
 
 const initialState: CartState = {
   cart: [],
+  count: 0,
 };
 
 export const cartSlice = createSlice({
@@ -29,6 +31,9 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<CartItem>) => {
+      console.log(state, 'add to cart');
+      console.log(action.payload, 'add to cart');
+
       state.cart.push(action.payload);
     },
     updateQtyToCart: (state, action: PayloadAction<CartItem>) => {
@@ -82,5 +87,7 @@ export const {
   clearCart,
   updateQtyToCartBundle,
 } = cartSlice.actions;
+
 export const getCart = (state: RootState) => state.cart.cart;
+
 export default cartSlice.reducer;

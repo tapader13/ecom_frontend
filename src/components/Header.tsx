@@ -17,16 +17,17 @@ import {
 import { LogOut, LogIn } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { AuthContext } from '@/provider/AuthProvider';
+import { getUser } from '@/lib/redux/user/userSlice';
 
 const Header = () => {
   const data1 = useAppSelector(getCart);
   console.log(data1, 'tr');
+  const userData = useAppSelector(getUser);
+  console.log(userData, 'userData');
 
-  const { user, isAuthenticated } = useContext(AuthContext);
-  const userMemo = useMemo(
-    () => ({ user, isAuthenticated }),
-    [user, isAuthenticated]
-  );
+  // const { user, isAuthenticated } = useContext(AuthContext);
+  // const as = useAppSelector((state) => state.cart);
+  // console.log(as, 'as');
   const router = useRouter();
 
   return (
@@ -47,10 +48,10 @@ const Header = () => {
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger className='cursor-pointer' asChild>
-                {userMemo.isAuthenticated ? (
+                {userData?.user ? (
                   <img
                     className='h-7 w-7 rounded-full'
-                    src={user?.user_metadata?.avatar_url}
+                    src={userData?.user?.user_metadata?.avatar_url}
                     alt='profile-img'
                   />
                 ) : (
@@ -61,7 +62,7 @@ const Header = () => {
               </DropdownMenuTrigger>
 
               <DropdownMenuContent className='w-56'>
-                {userMemo.isAuthenticated ? (
+                {userData?.user ? (
                   <DropdownMenuItem
                     onClick={async () => {
                       const { error } = await supabase.auth.signOut();

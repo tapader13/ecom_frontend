@@ -88,6 +88,6 @@ export const {
   updateQtyToCartBundle,
 } = cartSlice.actions;
 
-export const getCart = (state: RootState) => state.cart.cart;
+export const getCart = (state: RootState) => state.cart;
 
 export default cartSlice.reducer;

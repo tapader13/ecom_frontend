@@ -20,7 +20,7 @@ import { AuthContext } from '@/provider/AuthProvider';
 import { getUser, setUserInfo } from '@/lib/redux/user/userSlice';
 
 const Header = () => {
-  const data1 = useAppSelector(getCart) || [];
+  const data1 = useAppSelector(getCart);
   console.log(data1, 'tr');
   const userData = useAppSelector(getUser);
   console.log(userData, 'userData');

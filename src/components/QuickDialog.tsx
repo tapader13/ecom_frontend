@@ -29,6 +29,9 @@ export function QuickDialog({ id }: { id: string }) {
   };
   const { toast } = useToast();
   const data = useAppSelector(getCart);
+  useEffect(() => {
+    console.log(data, 'quick dialog 2');
+  }, [data]);
   console.log(data, 'quick dialog');
   const handleAddToCart = () => {
     const addData = {

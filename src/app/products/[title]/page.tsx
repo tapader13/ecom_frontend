@@ -51,9 +51,9 @@ const ProductDetails = ({ params }: { params: { title: string } }) => {
       addData.img &&
       addData.category
     ) {
-      const findId = data.find((dt) => dt.id === addData.id);
-      const findSize = data.find((dt) => dt.size === addData.size);
-      const findColor = data.find((dt) => dt.color === addData.color);
+      const findId = data.cart.find((dt) => dt.id === addData.id);
+      const findSize = data.cart.find((dt) => dt.size === addData.size);
+      const findColor = data.cart.find((dt) => dt.color === addData.color);
       if (!findId || !findSize || !findColor) {
         dispatch(addToCart(addData));
         toast({

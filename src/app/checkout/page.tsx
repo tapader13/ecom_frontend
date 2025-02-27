@@ -4,7 +4,7 @@ import { clearCart, getCart } from '@/lib/redux/cart/cartSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { supabase } from '@/lib/supabase/product';
 import { useRouter } from 'next/navigation';
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 import { getUser } from '@/lib/redux/user/userSlice';
@@ -19,8 +19,8 @@ const CheckoutPage = () => {
   const data1 = useAppSelector(getCart);
   const dispatch = useAppDispatch();
 
-  const totalMoney = cartData
-    ? cartData.reduce(
+  const totalMoney = cartData.cart
+    ? cartData.cart.reduce(
         (total, crt) => total + (crt.price || 0) * crt.quantity,
         0
       )
@@ -93,7 +93,7 @@ const CheckoutPage = () => {
         </div>
         <div className='sm:col-span-5 pt-10'>
           {cartData &&
-            cartData.map((cart, i) => (
+            cartData.cart.map((cart, i) => (
               <>
                 <div
                   key={i}
@@ -122,7 +122,7 @@ const CheckoutPage = () => {
               </>
             ))}
           <div className='flex items-center justify-between'>
-            <h5>Subtotal ({cartData.length} item) </h5>
+            <h5>Subtotal ({cartData.cart.length} item) </h5>
             <h5>${totalMoney}</h5>
           </div>
           <div className='flex my-5 items-center justify-between'>

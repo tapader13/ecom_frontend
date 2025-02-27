@@ -17,7 +17,7 @@ export const userSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    setUserInfo: (state, action: PayloadAction<number>) => {
+    setUserInfo: (state, action: PayloadAction<any>) => {
       state.user = action.payload;
     },
   },

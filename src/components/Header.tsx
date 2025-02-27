@@ -2,7 +2,7 @@
 import { FaRegHeart } from 'react-icons/fa';
 import { FiUser } from 'react-icons/fi';
 import { CiShoppingCart } from 'react-icons/ci';
-import { useAppSelector } from '@/lib/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { getCart } from '@/lib/redux/cart/cartSlice';
 import Link from 'next/link';
 import { useContext, useEffect, useMemo, useState } from 'react';
@@ -17,13 +17,14 @@ import {
 import { LogOut, LogIn } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { AuthContext } from '@/provider/AuthProvider';
-import { getUser } from '@/lib/redux/user/userSlice';
+import { getUser, setUserInfo } from '@/lib/redux/user/userSlice';
 
 const Header = () => {
-  const data1 = useAppSelector(getCart);
+  const data1 = useAppSelector(getCart) || [];
   console.log(data1, 'tr');
   const userData = useAppSelector(getUser);
   console.log(userData, 'userData');
+  const dispatch = useAppDispatch();
 
   // const { user, isAuthenticated } = useContext(AuthContext);
   // const as = useAppSelector((state) => state.cart);
@@ -69,6 +70,7 @@ const Header = () => {
                       if (error) {
                         console.error('Error logging out:', error.message);
                       } else {
+                        dispatch(setUserInfo(null));
                         window.location.reload(); // Reload the page after logging out
                         router.push('/signin'); // Redirect to sign-in page
                       }

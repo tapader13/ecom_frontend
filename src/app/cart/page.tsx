@@ -9,9 +9,7 @@ import {
 } from '@/lib/redux/cart/cartSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { getUser } from '@/lib/redux/user/userSlice';
-import { supabase } from '@/lib/supabase/product';
-import { AuthContext } from '@/provider/AuthProvider';
-import Link from 'next/link';
+
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -55,8 +53,8 @@ const CartPage = () => {
   const handleClearCart = () => {
     dispatch(clearCart());
   };
-  const totalMoney = cartData
-    ? cartData.reduce(
+  const totalMoney = cartData.cart
+    ? cartData.cart.reduce(
         (total, crt) => total + (crt.price || 0) * crt.quantity,
         0
       )
@@ -81,7 +79,7 @@ const CartPage = () => {
           Shopping Cart
         </h1>
       </div>
-      {timeLeft > 0 && cartData && cartData.length > 0 ? (
+      {timeLeft > 0 && cartData.cart && cartData.cart.length > 0 ? (
         <>
           {' '}
           <div className='flex px-5 sm:px-0 sm:flex-row flex-col items-center justify-center py-14 gap-3 font-albert text-xl'>
@@ -110,7 +108,7 @@ const CartPage = () => {
               </div>
 
               {cartData &&
-                cartData.map((cart, i) => (
+                cartData.cart.map((cart, i) => (
                   <>
                     <div
                       key={i}
@@ -163,7 +161,7 @@ const CartPage = () => {
                   </>
                 ))}
               {cartData &&
-                cartData.map((cart, i) => (
+                cartData.cart.map((cart, i) => (
                   <>
                     <div
                       key={i}
